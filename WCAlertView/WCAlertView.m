@@ -118,6 +118,37 @@ static CustomizationBlock kDefauldCustomizationBlock = nil;
     
 }
 
++ (id)alertWithTitle:(NSString *)title message:(NSString *)message customizationBlock:(void (^)(WCAlertView *alertView))customization
+     completionBlock:(void (^)(NSUInteger buttonIndex, WCAlertView *alertView))block
+   cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION
+{
+    WCAlertView *alertView = [[self alloc] initWithTitle:title message:message completionBlock:block cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil];
+    
+    if (otherButtonTitles != nil) {
+        id eachObject;
+        va_list argumentList;
+        if (otherButtonTitles) {
+            [alertView addButtonWithTitle:otherButtonTitles];
+            va_start(argumentList, otherButtonTitles);
+            while ((eachObject = va_arg(argumentList, id))) {
+                [alertView addButtonWithTitle:eachObject];
+            }
+            va_end(argumentList);
+        }
+    }
+    
+	if (cancelButtonTitle) {
+		[alertView addButtonWithTitle:cancelButtonTitle];
+		alertView.cancelButtonIndex = [alertView numberOfButtons] - 1;
+	}
+    
+    if (customization) {
+        customization(alertView);
+    }
+    
+    return alertView;
+}
+
 - (id)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...
 {
     if (self = [super initWithTitle:title message:message delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil]) {

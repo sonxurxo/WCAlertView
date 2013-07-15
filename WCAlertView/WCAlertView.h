@@ -110,5 +110,9 @@ typedef void(^CustomizationBlock)(WCAlertView *alertView);
          completionBlock:(void (^)(NSUInteger buttonIndex, WCAlertView *alertView))block
        cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
 
++ (id)alertWithTitle:(NSString *)title message:(NSString *)message customizationBlock:(void (^)(WCAlertView *alertView))customization
+         completionBlock:(void (^)(NSUInteger buttonIndex, WCAlertView *alertView))block
+       cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
+
 
 @end
